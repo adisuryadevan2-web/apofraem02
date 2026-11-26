@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff9f3">
+  <title>Profil Belajar — nihongo.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#282522; --muted:#77716b; --accent:#d95745; --cream:#fff9f3; --line:#eee5dc; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"DM Sans",sans-serif; color:var(--ink); background:var(--cream); }
+    .wrap { width:min(1120px, calc(100% - 32px)); margin:auto; }
+    .topbar { position:sticky; top:0; z-index:20; background:rgba(255,249,243,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .nav { height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { color:var(--ink); text-decoration:none; font-size:22px; font-weight:700; }
+    .brandmark { display:inline-grid; place-items:center; width:38px; height:38px; margin-right:8px; border-radius:12px; color:white; background:var(--accent); font-family:"Noto Serif JP",serif; }
+    .back { color:var(--ink); text-decoration:none; border:1px solid var(--line); background:white; border-radius:999px; padding:10px 16px; }
+
+    .profile-card { margin:32px 0 22px; display:grid; grid-template-columns:180px 1fr; gap:28px; align-items:center; padding:28px; border:1px solid var(--line); border-radius:24px; background:white; box-shadow:0 12px 35px #49372b0c; }
+    .avatar { width:180px; aspect-ratio:1; border-radius:50%; object-fit:cover; background:#f2ebe3; border:8px solid var(--cream); }
+    .eyebrow { color:var(--accent); font-size:12px; font-weight:700; letter-spacing:.14em; }
+    h1 { margin:8px 0 6px; font-size:clamp(32px,6vw,52px); }
+    .bio { max-width:700px; margin:0 0 16px; color:var(--muted); line-height:1.7; }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; }
+    .meta span { padding:8px 12px; border-radius:999px; background:var(--cream); border:1px solid var(--line); font-size:13px; }
+
+    .toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:22px 0 12px; }
+    .toolbar h2 { margin:0; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; }
+    button, .upload-btn { border:0; border-radius:12px; padding:10px 14px; font:inherit; font-weight:700; cursor:pointer; }
+    .primary { color:white; background:var(--accent); }
+    .secondary, .upload-btn { color:var(--ink); background:white; border:1px solid var(--line); }
+    .upload-btn { display:inline-flex; align-items:center; cursor:pointer; }
+
+    .gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .gallery-item { position:relative; overflow:hidden; aspect-ratio:4/3; border-radius:18px; background:#eee5dc; }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; transition:.25s ease; cursor:pointer; }
+    .gallery-item:hover img { transform:scale(1.03); }
+    .remove { position:absolute; top:8px; right:8px; width:34px; height:34px; padding:0; border-radius:50%; background:rgba(40,37,34,.82); color:white; }
+
+    .editor { display:none; margin:18px 0; padding:22px; border-radius:18px; background:white; border:1px solid var(--line); }
+    .editor.open { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .field { display:grid; gap:7px; }
+    .field.full { grid-column:1/-1; }
+    input, textarea { width:100%; border:1px solid var(--line); border-radius:11px; padding:11px 12px; font:inherit; color:var(--ink); background:white; }
+    textarea { min-height:90px; resize:vertical; }
+
+    .modal { position:fixed; inset:0; z-index:50; display:none; place-items:center; padding:24px; background:rgba(28,25,23,.86); }
+    .modal.open { display:grid; }
+    .modal img { max-width:min(1000px,92vw); max-height:86vh; border-radius:16px; }
+    .modal-close { position:absolute; top:18px; right:18px; width:42px; height:42px; border-radius:50%; background:white; }
+
+    @media (max-width:720px) {
+      .profile-card { grid-template-columns:1fr; text-align:center; }
+      .avatar { width:150px; margin:auto; }
+      .meta { justify-content:center; }
+      .gallery { grid-template-columns:repeat(2,1fr); }
+      .editor.open { grid-template-columns:1fr; }
+      .field.full { grid-column:auto; }
+      .toolbar { align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="index.html"><span class="brandmark">あ</span>nihongo.</a>
+      <a class="back" href="index.html">← Kembali</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="profile-card">
+      <img class="avatar" id="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85" alt="Foto profil">
+      <div>
+        <div class="eyebrow">PELAJAR BAHASA JEPANG</div>
+        <h1 id="displayName">Anisa Putri</h1>
+        <p class="bio" id="displayBio">Belajar bahasa Jepang setiap hari, sedikit demi sedikit. Saat ini berfokus pada kosakata, tata bahasa, dan membaca teks JLPT.</p>
+        <div class="meta">
+          <span id="displayLevel">Target: JLPT N5</span>
+          <span id="displayLocation">Indonesia</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="primary" id="toggleEditor" type="button">Sesuaikan profil</button>
+      <label class="upload-btn"><input id="avatarInput" type="file" accept="image/*" hidden> Ganti foto</label>
+    </div>
+
+    <form class="editor" id="editor">
+      <label class="field">Nama
+        <input id="nameInput" value="Anisa Putri">
+      </label>
+      <label class="field">Level target
+        <input id="levelInput" value="Target: JLPT N5">
+      </label>
+      <label class="field">Lokasi
+        <input id="locationInput" value="Indonesia">
+      </label>
+      <label class="field">Warna tema
+        <input id="colorInput" type="color" value="#d95745">
+      </label>
+      <label class="field full">Bio
+        <textarea id="bioInput">Belajar bahasa Jepang setiap hari, sedikit demi sedikit. Saat ini berfokus pada kosakata, tata bahasa, dan membaca teks JLPT.</textarea>
+      </label>
+      <div class="actions field full">
+        <button class="primary" type="submit">Simpan</button>
+        <button class="secondary" id="resetProfile" type="button">Reset</button>
+      </div>
+    </form>
+
+    <div class="toolbar">
+      <h2>Galeri belajar</h2>
+      <label class="upload-btn"><input id="galleryInput" type="file" accept="image/*" multiple hidden> + Tambah foto</label>
+    </div>
+    <section class="gallery" id="gallery" aria-label="Galeri foto"></section>
+  </main>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Tutup">×</button>
+    <img id="modalImage" alt="Pratinjau galeri">
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const KEY = 'nihongo-profile-v1';
+    const defaults = {
+      name:'Anisa Putri', bio:'Belajar bahasa Jepang setiap hari, sedikit demi sedikit. Saat ini berfokus pada kosakata, tata bahasa, dan membaca teks JLPT.',
+      level:'Target: JLPT N5', location:'Indonesia', color:'#d95745',
+      avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=85', gallery:[]
+    };
+
+    let state = JSON.parse(localStorage.getItem(KEY) || 'null') || structuredClone(defaults);
+
+    function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+    function apply() {
+      $('displayName').textContent = state.name;
+      $('displayBio').textContent = state.bio;
+      $('displayLevel').textContent = state.level;
+      $('displayLocation').textContent = state.location;
+      $('avatar').src = state.avatar;
+      document.documentElement.style.setProperty('--accent', state.color);
+      $('nameInput').value = state.name;
+      $('bioInput').value = state.bio;
+      $('levelInput').value = state.level;
+      $('locationInput').value = state.location;
+      $('colorInput').value = state.color;
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const gallery = $('gallery');
+      gallery.innerHTML = '';
+      state.gallery.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `<img src="${src}" alt="Foto galeri ${index + 1}" loading="lazy"><button class="remove" type="button" aria-label="Hapus foto">×</button>`;
+        item.querySelector('img').addEventListener('click', () => openModal(src));
+        item.querySelector('.remove').addEventListener('click', () => { state.gallery.splice(index,1); save(); renderGallery(); });
+        gallery.appendChild(item);
+      });
+    }
+
+    function readImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file);
+      });
+    }
+
+    $('toggleEditor').addEventListener('click', () => $('editor').classList.toggle('open'));
+    $('editor').addEventListener('submit', event => {
+      event.preventDefault();
+      state.name = $('nameInput').value.trim() || defaults.name;
+      state.bio = $('bioInput').value.trim() || defaults.bio;
+      state.level = $('levelInput').value.trim() || defaults.level;
+      state.location = $('locationInput').value.trim() || defaults.location;
+      state.color = $('colorInput').value;
+      save(); apply(); $('editor').classList.remove('open');
+    });
+
+    $('resetProfile').addEventListener('click', () => { state = structuredClone(defaults); save(); apply(); });
+
+    $('avatarInput').addEventListener('change', async event => {
+      const file = event.target.files[0]; if (!file) return;
+      state.avatar = await readImage(file); save(); apply(); event.target.value = '';
+    });
+
+    $('galleryInput').addEventListener('change', async event => {
+      const files = [...event.target.files];
+      for (const file of files) {
+        if (state.gallery.length >= 12) break;
+        state.gallery.push(await readImage(file));
+      }
+      save(); renderGallery(); event.target.value = '';
+    });
+
+    function openModal(src) { $('modalImage').src = src; $('modal').classList.add('open'); }
+    $('modalClose').addEventListener('click', () => $('modal').classList.remove('open'));
+    $('modal').addEventListener('click', event => { if (event.target === $('modal')) $('modal').classList.remove('open'); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') $('modal').classList.remove('open'); });
+
+    apply();
+  </script>
+</body>
+</html>
