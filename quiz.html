@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b1b">
+  <meta name="description" content="Latihan harian 100 soal bahasa Jepang JLPT N5 hingga N1 dan leaderboard lokal.">
+  <title>Latihan Harian — Nihongo Galaxy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="modules.css">
+  <style>
+    .quiz-hero{padding:38px 0 16px}.quiz-card{opacity:1;transform:none}.quiz-card h2{color:var(--ink)}
+    .quiz-meta,.quiz-actions,.leader-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;color:var(--cyan);font-size:12px;font-weight:700;background:var(--panel2)}
+    .progress-track{height:9px;margin:17px 0 22px;overflow:hidden;border-radius:99px;background:#ffffff14}.progress-fill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width .3s ease}
+    .question-title{font-size:clamp(20px,4vw,27px);line-height:1.55}.answers{display:grid;gap:10px;margin:20px 0}.answer-option{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;text-align:left;color:var(--ink);background:var(--panel2);font:600 15px "DM Sans",sans-serif;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}.answer-option:hover:not(:disabled){transform:translateY(-2px);border-color:var(--accent)}.answer-option:focus-visible,.quiz-button:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}.answer-option.correct{border-color:#54d6a0;background:#164734}.answer-option.incorrect{border-color:#ff8292;background:#512334}.answer-option:disabled{cursor:default}.feedback{min-height:28px;color:var(--cyan);font-weight:700}.quiz-button{border:0;border-radius:11px;padding:11px 17px;color:#101326;background:linear-gradient(110deg,var(--accent),var(--cyan));font:800 14px "DM Sans",sans-serif;cursor:pointer;transition:transform .2s,filter .2s}.quiz-button:hover{transform:translateY(-2px);filter:brightness(1.08)}.quiz-button:disabled{opacity:.5;cursor:not-allowed;transform:none}.name-form{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.name-form input{flex:1;min-width:190px;padding:12px;border:1px solid var(--line);border-radius:10px;color:var(--ink);background:#080c1dcc;font:inherit}.leaderboard{display:grid;gap:8px;margin-top:16px}.leader-row{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}.leader-name{font-weight:800}.leader-score{color:var(--cyan);font-weight:800}.small-note{color:var(--muted);font-size:12px;line-height:1.6}.hidden{display:none!important}.quiz-count{color:var(--muted);font-size:13px}@media(prefers-reduced-motion:reduce){.progress-fill,.answer-option,.quiz-button{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap nav"><a class="brand" href="index.html">あ nihongo.</a><nav aria-label="Navigasi"><a href="index.html">Beranda</a><a href="n5.html">Materi JLPT</a></nav></div></header>
+  <main class="wrap">
+    <section class="hero quiz-hero"><div class="eyebrow">TANTANGAN HARIAN · 毎日の練習</div><h1>100 soal, <span style="color:var(--accent)">setiap hari.</span></h1><p class="lead">Satu set baru setiap tanggal UTC, berisi kosakata dan cara baca dari level N5–N1. Selesaikan untuk mencatat skor di leaderboard.</p><div class="quiz-meta"><span class="badge" id="dailyDate">Memuat tanggal…</span><span class="badge">100 soal · N5–N1</span></div></section>
+    <section class="panel quiz-card" id="nameCard"><h2>Siapa nama pemainnya?</h2><p>Nama ini akan ditampilkan di leaderboard pada browser ini.</p><form class="name-form" id="nameForm"><label class="small-note" for="playerName" style="align-self:center">Nama pemain</label><input id="playerName" maxlength="24" autocomplete="nickname" placeholder="Contoh: Sakura" required><button class="quiz-button" type="submit">Mulai latihan</button></form><p class="small-note">Setiap browser menyimpan leaderboard-nya sendiri. Untuk leaderboard bersama semua pengunjung dibutuhkan server atau layanan database dan autentikasi.</p></section>
+    <section class="panel quiz-card hidden" id="quizCard" aria-live="polite"><div class="quiz-meta"><span class="badge" id="levelBadge">JLPT N5</span><span class="quiz-count" id="questionCount">Soal 1 dari 100</span><span class="badge" id="scoreBadge">Skor 0</span></div><div class="progress-track" role="progressbar" aria-label="Kemajuan latihan" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div><h2 class="question-title" id="questionText"></h2><div class="answers" id="answers"></div><p class="feedback" id="feedback" role="status"></p><div class="quiz-actions"><span class="small-note" id="streakText"></span><button class="quiz-button" id="nextButton" type="button" disabled>Soal berikutnya →</button></div></section>
+    <section class="panel quiz-card hidden" id="resultCard"><div class="eyebrow">LATIHAN SELESAI</div><h2 id="resultTitle">Hasil latihan</h2><p id="resultSummary"></p><div class="quiz-actions"><button class="quiz-button" id="showBoard" type="button">Lihat leaderboard</button><button class="quiz-button" id="retryButton" type="button">Ulangi set hari ini</button></div></section>
+    <section class="panel quiz-card" id="leaderCard"><div class="eyebrow">🏆 PAPAN PERINGKAT</div><h2>Leaderboard hari ini</h2><p class="small-note">Peringkat lokal di perangkat/browser ini · skor tertinggi lebih dulu, lalu waktu tercepat.</p><div class="leaderboard" id="leaderboard" aria-live="polite"></div></section>
+  </main>
+  <footer class="wrap foot">Nihongo Galaxy · Latihan harian JLPT</footer>
+  <script src="quiz.js"></script>
+</body>
+</html>
